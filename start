@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# create panes (4)
+tmux split-window -v -p 20
+tmux split-window -h -p 66
+tmux split-window -h -p 50
+
+# if it is a Laravel project
+if [ -f ./artisan ]; then
+   #select the first pane and start Lampp
+   tmux selectp -t 0
+   sudo /opt/lampp/lampp start
+
+   # start server on the second pane
+   tmux send-keys -t 1 "php artisan serve" Enter
+fi
+
+# start Ranger on the last pane
+tmux send-keys -t 3 "ranger" Enter
+
+# start Helix on the first pane
+tmux send-keys -t 0 "helix ." Enter
